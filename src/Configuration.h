@@ -102,4 +102,31 @@ namespace Config {
 	 * @param resolution - The resolution to set
 	 */
 	void setResolution(std::pair<int, int> resolution);
+
+	/**
+	 * @brief An exception for when a file (usually accessed via ifstream) is not found
+	 */
+	class FileNotFoundException : public std::runtime_error {
+	public:
+		/**
+		 * @brief Constructs the exception
+		 * 
+		 * @param fileLocation Holds the location of the file in a C-style string
+		 */
+		FileNotFoundException(char const *fileLocation) throw();
+
+		/**
+		 * @brief Echoes the exception message including the missing file
+		 */
+		virtual const char* what() const throw();
+
+		/**
+		 * @brief Returns the static file location
+		 * @return C-style string containing the static file location
+		 */
+		char *getFileLocation() const;
+	
+	private:
+		char *fileLocation;
+	};
 }

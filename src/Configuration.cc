@@ -8,10 +8,10 @@ namespace Config {
 	/**
 	 * @brief The location of the configuration file
 	 */
-	static std::string configFileLocation = DEFAULT_CONFIG_FILE_LOCATION;
+	static char *configFileLocation = DEFAULT_CONFIG_FILE_LOCATION;
 
 	/**
- 	* @brief A low level function which returns a pair of a key and a value read from the configuration file.
+ 	 * @brief A low level function which returns a pair of a key and a value read from the configuration file.
 	 * @return A key value pair
 	 */
 	std::pair<std::string, std::string> getKeyValuePair(std::string key);
@@ -20,7 +20,7 @@ namespace Config {
 		return configFileLocation;
 	}
 
-	void setConfigurationFileLocation(std::string fileLocation) {
+	void setConfigurationFileLocation(char *fileLocation) {
 		configFileLocation = fileLocation;
 	}
 
@@ -31,8 +31,9 @@ namespace Config {
 		file.open(configFileLocation);
 
 		// TODO: Handle case of file not existing
-		if (!file)
-			std::cout << configFileLocation << std::endl;
+		if (!file) {
+			throw FileNotFoundException(configFileLocation);
+		}
 
 		std::string line;
 		while (std::getline(file, line)) {
@@ -71,5 +72,18 @@ namespace Config {
 
 	void setResolution(std::pair<int, int>) {
 		// TODO
+	}
+
+	/**
+	 * Exceptions
+	 */
+	FileNotFoundException::FileNotFoundException(char const *fileLocation) throw() : std::runtime_error("File not found") {};
+
+	const char* FileNotFoundException::what() const throw() {
+		return std::runtime_error::what();
+	}
+
+	char* FileNotFoundException::getFileLocation() const {
+		return fileLocation;
 	}
 }
