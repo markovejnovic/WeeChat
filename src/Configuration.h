@@ -52,12 +52,23 @@
 #define CSTRING
 #endif
 
+#ifndef BOOST_FILESYSTEM
+#include <boost/filesystem.hpp>
+#define BOOST_FILESYSTEM
+#endif
+
 /**
- * The resolution delimiter in the config file.
- * This must be a string, not a character.
+ * Default config file name
  */
-#ifndef RESOLUTION_DELIMITER
-#define RESOLUTION_DELIMITER "x"
+#ifndef DEFAULT_CONFIG_FILE_NAME
+#define DEFAULT_CONFIG_FILE_NAME "WeeChat.conf"
+#endif
+
+/**
+ * Default config file location
+ */
+#ifndef DEFAULT_CONFIG_FILE_LOCATION
+#define DEFAULT_CONFIG_FILE_LOCATION strcat(std::getenv("HOME"), "/.config/WeeChat/")
 #endif
 
 /**
@@ -68,10 +79,26 @@
 #endif
 
 /**
- * Default config file location
+ * The resolution delimiter in the config file.
+ * This must be a string, not a character.
  */
-#ifndef DEFAULT_CONFIG_FILE_LOCATION
-#define DEFAULT_CONFIG_FILE_LOCATION strcat(std::getenv("HOME"), "/.config/WeeChat/WeeChat.conf")
+#ifndef RESOLUTION_DELIMITER
+#define RESOLUTION_DELIMITER "x"
+#endif
+
+/**
+ * The default resolution to write to the config file
+ */
+#ifndef RESOLUTION_DEFAULT
+#define RESOLUTION_DEFAULT "400" RESOLUTION_DELIMITER "300"
+#endif
+
+/**
+ * The default text to write to the config file[WARNING] 
+ */
+#ifndef CONFIG_DEFAULT
+#define CONFIG_DEFAULT \
+	RESOLUTION_TEXT "=" RESOLUTION_DEFAULT "\n"
 #endif
 
 /**
@@ -80,19 +107,29 @@
  */
 namespace Config {
 	/**
-	 * @brief Returns the Configuration File Location
+	 * @brief Creates a default configuration file
+	 * @details This method creates a default configuration in DEFAULT_CONFIG_FILE_LOCATION with the name
+	 * DEFAULT_CONFIG_FILE_NAME and writes CONFIG_DEFAULT to it. If DEFAULT_CONFIG_FILE_LOCATION is
+	 * !boost::filesystem::is_directory() then a directory is created and the file created in it.
 	 */
-	std::string getConfigurationFileLocation();
+	void create();
 
 	/**
-	 * @brief Changes the Configuration File Location
-	 * @details This function allows you to set a non-default configuration file location. Using it is discouraged
+	 * @brief Returns the Configuration File Path
 	 */
-	void setConfigurationFileLocation(std::string fileLocation);
+	boost::filesystem::path getConfigurationFile();
+
+	/**
+	 * @brief Changes the Configuration File Path
+	 * @details This function allows you to set a non-default configuration file location. Using it is discouraged.
+	 */
+	void setConfigurationFile(std::string fileLocation);
 
 	/**
 	 * @brief Returns the resolution of the app on startup
 	 * @return The resolution of the app on startup
+	 * 
+	 * @todo Implement the same functionality using boost
 	 */
 	std::pair<int, int> getResolution();
 

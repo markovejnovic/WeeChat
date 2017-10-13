@@ -1,4 +1,5 @@
 ## Process this file with automake to generate Makefile.in
-SUBDIRS = src
+ACLOCAL_AMFLAGS = -I m4
+EXTRA_DIST = bootstrap
 
-CLEANFILES = *~
+SUBDIRS = src

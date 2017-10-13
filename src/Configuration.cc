@@ -5,34 +5,41 @@
 #endif
 
 namespace Config {
-	/**
-	 * @brief The location of the configuration file
-	 */
-	static char *configFileLocation = DEFAULT_CONFIG_FILE_LOCATION;
+	static boost::filesystem::path configFileLocation(DEFAULT_CONFIG_FILE_LOCATION);
+	static boost::filesystem::path configFile(configFileLocation / boost::filesystem::path(DEFAULT_CONFIG_FILE_NAME));
 
-	/**
- 	 * @brief A low level function which returns a pair of a key and a value read from the configuration file.
-	 * @return A key value pair
-	 */
 	std::pair<std::string, std::string> getKeyValuePair(std::string key);
 
-	std::string getConfigurationFileLocation() {
-		return configFileLocation;
+	void create() {
+		if (boost::filesystem::is_directory(configFileLocation)) {
+			std::ofstream file;
+			file.open(configFile.string());
+			file << CONFIG_DEFAULT;
+		} else {
+			boost::filesystem::create_directory(configFileLocation);
+
+			std::ofstream file;
+			file.open(configFile.string());
+			file << CONFIG_DEFAULT;
+		}
 	}
 
-	void setConfigurationFileLocation(char *fileLocation) {
-		configFileLocation = fileLocation;
+	boost::filesystem::path getConfigurationFile() {
+		return configFile;
+	}
+
+	void setConfigurationFile(char *fileLocation) {
+		configFile = fileLocation;
 	}
 
 	std::pair<std::string, std::string> getKeyValuePair(std::string key) {
 		std::pair<std::string, std::string> keyValuePair;
 
 		std::ifstream file;
-		file.open(configFileLocation);
+		file.open(configFile.string());
 
-		// TODO: Handle case of file not existing
 		if (!file) {
-			throw FileNotFoundException(configFileLocation);
+			throw FileNotFoundException(configFile.string().c_str());
 		}
 
 		std::string line;
@@ -71,13 +78,14 @@ namespace Config {
 	}
 
 	void setResolution(std::pair<int, int>) {
-		// TODO
+
 	}
 
 	/**
 	 * Exceptions
 	 */
-	FileNotFoundException::FileNotFoundException(char const *fileLocation) throw() : std::runtime_error("File not found") {};
+	FileNotFoundException::FileNotFoundException(char const *fileLocation) throw()
+		: std::runtime_error("File not found") {};
 
 	const char* FileNotFoundException::what() const throw() {
 		return std::runtime_error::what();
