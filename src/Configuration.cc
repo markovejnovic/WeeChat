@@ -15,12 +15,14 @@ namespace Config {
 			std::ofstream file;
 			file.open(configFile.string());
 			file << CONFIG_DEFAULT;
+			file.close();
 		} else {
 			boost::filesystem::create_directory(configFileLocation);
 
 			std::ofstream file;
 			file.open(configFile.string());
 			file << CONFIG_DEFAULT;
+			file.close();
 		}
 	}
 
@@ -42,13 +44,18 @@ namespace Config {
 			throw FileNotFoundException(configFile.string().c_str());
 		}
 
+		bool keyIsFound = false;
+
 		std::string line;
 		while (std::getline(file, line)) {
 			std::istringstream inputStreamLine(line);
 
 			std::string k;
+
 			if (std::getline(inputStreamLine, k, '=')) {
 				if (k == key) {
+					keyIsFound = true;
+
 					std::string value;
 					if (std::getline(inputStreamLine, value)) {
 						int delimiterPosition = value.find(RESOLUTION_DELIMITER);
@@ -57,16 +64,15 @@ namespace Config {
 							value.substr(0, delimiterPosition),
 							value.substr(delimiterPosition + sizeof(RESOLUTION_DELIMITER) - 1)
 						);
-					} else {
-						// TODO: Handle case of value of resolution not being set
 					}
 				}
 			}
 		}
 
-		// TODO: Handle case of key not existing
-
 		file.close();
+
+		if (!keyIsFound)
+			throw ConfigurationKeyNotFoundException(key.c_str());
 
 		return keyValuePair;
 	}
@@ -81,6 +87,19 @@ namespace Config {
 
 	}
 
+	void setDefaultResolution() {
+		std::ofstream file;
+		file.open(configFile.string());
+
+		if (!file) {
+			throw FileNotFoundException(configFile.string().c_str());
+		}
+
+		file << RESOLUTION_TEXT CONFIG_DELIMITER RESOLUTION_DEFAULT << std::endl;
+
+		file.close();
+	}
+
 	/**
 	 * Exceptions
 	 */
@@ -93,5 +112,16 @@ namespace Config {
 
 	char* FileNotFoundException::getFileLocation() const {
 		return fileLocation;
+	}
+
+	ConfigurationKeyNotFoundException::ConfigurationKeyNotFoundException(char const *key) throw()
+		: std::runtime_error("Configuration key not found") {};
+
+	const char* ConfigurationKeyNotFoundException::what() const throw() {
+		return std::runtime_error::what();
+	}
+
+	char* ConfigurationKeyNotFoundException::getKey() const {
+		return key;
 	}
 }

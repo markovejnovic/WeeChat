@@ -32,6 +32,11 @@ int main(int argc, char **argv)
 		Config::create();
 
 		return createApp(argc, argv, getConfig());
+	} catch (const Config::ConfigurationKeyNotFoundException &fknfe) {
+		Console::lWarn("Unable to find the Resolution value in ~/.config/WeeChat/WeeChat.conf", "Trying to set the default value.");
+		Config::setDefaultResolution();
+
+		return createApp(argc, argv, getConfig());
 	}
 
 	return -1;

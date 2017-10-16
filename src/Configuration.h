@@ -72,6 +72,13 @@
 #endif
 
 /**
+ * The delimiter for config strings
+ */
+#ifndef CONFIG_DELIMITER
+#define CONFIG_DELIMITER "="
+#endif
+
+/**
  * The name of the resolution option
  */
 #ifndef RESOLUTION_TEXT
@@ -141,6 +148,12 @@ namespace Config {
 	void setResolution(std::pair<int, int> resolution);
 
 	/**
+	 * @brief Writes a default resolution denominated by RESOLUTION_TEXT CONFIG DELIMITER RESOLUTION_DEFAULT to the
+	 * configuration file
+	 */
+	void setDefaultResolution();
+
+	/**
 	 * @brief An exception for when a file (usually accessed via ifstream) is not found
 	 */
 	class FileNotFoundException : public std::runtime_error {
@@ -165,5 +178,32 @@ namespace Config {
 	
 	private:
 		char *fileLocation;
+	};
+
+	/**
+	 * @brief An exception for when a configuration key is not found in the configuration file
+	 */
+	class ConfigurationKeyNotFoundException : public std::runtime_error {
+	public:
+		/**
+		 * @brief Constructs the exception
+		 * 
+		 * @param key The missing key
+		 */
+		ConfigurationKeyNotFoundException(char const *key) throw();
+
+		/**
+		 * @brief Echoes the exception message including the missing key
+		 */
+		virtual const char* what() const throw();
+
+		/**
+		 * @brief Returns the key that was searched
+		 * @return C-style string containing the key
+		 */
+		char *getKey() const;
+	
+	private:
+		char *key;
 	};
 }
