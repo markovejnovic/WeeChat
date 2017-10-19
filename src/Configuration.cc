@@ -46,9 +46,9 @@ namespace Config {
 
 		std::string line;
 		while (std::getline(file, line)) {
-			if (line.find(CONFIG_COMMENT_CHARACTER, 0) == 0) {
+			if (boost::starts_with(line, CONFIG_COMMENT_CHARACTER)) {
 				continue;
-			} else if (line.find(RESOLUTION_TEXT, 0) == 0) {
+			} else if (boost::starts_with(line, RESOLUTION_TEXT)) {
 				configurationValues.resolution = parseResolution(parseKeyValue(line));
 			} else {
 				Console::warn("Unknown line while reading configuration file: \"" + line + "\". Skipping it.");
