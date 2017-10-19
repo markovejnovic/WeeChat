@@ -5,6 +5,8 @@
 #endif
 
 namespace Config {
+	ConfigurationValues configurationValues;
+
 	static boost::filesystem::path configFileLocation(DEFAULT_CONFIG_FILE_LOCATION);
 	static boost::filesystem::path configFile(configFileLocation / boost::filesystem::path(DEFAULT_CONFIG_FILE_NAME));
 
@@ -32,6 +34,50 @@ namespace Config {
 
 	void setConfigurationFile(char *fileLocation) {
 		configFile = fileLocation;
+	}
+
+	ConfigurationValues read() {
+		std::ifstream file;
+		file.open(configFile.string());
+
+		if (!file) {
+			throw FileNotFoundException(configFile.string().c_str());
+		}
+
+		std::string line;
+		while (std::getline(file, line)) {
+			if (line.find(CONFIG_COMMENT_CHARACTER, 0) == 0) {
+				continue;
+			} else if (line.find(RESOLUTION_TEXT, 0) == 0) {
+				configurationValues.resolution = parseResolution(parseKeyValue(line));
+			} else {
+				Console::warn("Unknown line while reading configuration file: \"" + line + "\". Skipping it.");
+			}
+		}
+
+		file.close();
+
+		return configurationValues;
+	}
+
+	std::pair<std::string, std::string> parseKeyValue(std::string line) {
+		int delimiterPosition = line.find(CONFIG_DELIMITER);
+		int endLinePosition = line.find("\r") | line.find("\n");
+
+		return std::make_pair(
+			line.substr(0, delimiterPosition),
+			line.substr(delimiterPosition + 1, endLinePosition)
+		);
+	}
+
+	std::pair<short, short> parseResolution(std::pair<std::string, std::string> keyValuePair) {
+		int delimiterPosition = keyValuePair.second.find(RESOLUTION_DELIMITER);
+		int endLinePosition = keyValuePair.second.find("\r") | keyValuePair.second.find("\r");
+
+		return std::make_pair(
+			std::stoi(keyValuePair.second.substr(0, delimiterPosition)),
+			std::stoi(keyValuePair.second.substr(delimiterPosition + 1, endLinePosition))
+		);
 	}
 
 	std::pair<std::string, std::string> getKeyValuePair(std::string key) {

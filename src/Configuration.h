@@ -57,6 +57,16 @@
 #define BOOST_FILESYSTEM
 #endif
 
+#ifndef BOOST_ALGORITHM_STRING_PREDICATE
+#include <boost/algorithm/string/predicate.hpp>
+#define BOOST_ALGORITHM_STRING_PREDICATE
+#endif
+
+#ifndef CONSOLE_PRINTER
+#include "ConsolePrinter.h"
+#define CONSOLE_PRINTER
+#endif
+
 /**
  * Default config file name
  */
@@ -69,6 +79,13 @@
  */
 #ifndef DEFAULT_CONFIG_FILE_LOCATION
 #define DEFAULT_CONFIG_FILE_LOCATION strcat(std::getenv("HOME"), "/.config/WeeChat/")
+#endif
+
+/**
+ * The comment character for the config file
+ */
+#ifndef CONFIG_COMMENT_CHARACTER
+#define CONFIG_COMMENT_CHARACTER "#"
 #endif
 
 /**
@@ -114,6 +131,13 @@
  */
 namespace Config {
 	/**
+	 * @brief A struct which contains all of the configuration values
+	 */
+	struct ConfigurationValues {
+		std::pair<int, int> resolution;
+	};
+
+	/**
 	 * @brief Creates a default configuration file
 	 * @details This method creates a default configuration in DEFAULT_CONFIG_FILE_LOCATION with the name
 	 * DEFAULT_CONFIG_FILE_NAME and writes CONFIG_DEFAULT to it. If DEFAULT_CONFIG_FILE_LOCATION is
@@ -131,6 +155,28 @@ namespace Config {
 	 * @details This function allows you to set a non-default configuration file location. Using it is discouraged.
 	 */
 	void setConfigurationFile(std::string fileLocation);
+
+	/**
+	 * @brief Reads the configuration file line by line, returniing all the configuration values
+	 * @return ConfigurationValues All ConfigurationValues read
+	 */
+	ConfigurationValues read();
+
+	/**
+	 * @brief Parses key and value from a line in the configuration file
+	 * 
+	 * @param line A line to parse
+	 * @return An std::pair of the key and the value
+	 */
+	std::pair<std::string, std::string> parseKeyValue(std::string line);
+
+	/**
+	 * @brief Tries to parse the resolution
+	 * 
+	 * @param keyValuePair The pair of a key and value in the config file
+	 * @return A pair of resolutions (width and height)
+	 */
+	std::pair<short, short> parseResolution(std::pair<std::string, std::string> keyValuePair);
 
 	/**
 	 * @brief Returns the resolution of the app on startup

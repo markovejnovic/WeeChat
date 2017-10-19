@@ -52,11 +52,25 @@ namespace Console {
 	void info(char *msg);
 
 	/**
+	 * @brief Prints an informational message to the console
+	 * 
+	 * @param msg A std::string to print
+	 */
+	void info(std::string msg);
+
+	/**
 	 * @brief Prints a warning message to the console
 	 * 
 	 * @param msg A C-style string of the message to print
 	 */
 	void warn(char *msg);
+
+	/**
+	 * @brief Prints a warning message to the console
+	 * 
+	 * @param msg A std::string of the message to print
+	 */
+	void warn(std::string msg);
 
 	/**
 	 * @brief Prints a warning message with extra info to the console
@@ -67,11 +81,26 @@ namespace Console {
 	void lWarn(char *msg, char *info);
 
 	/**
+	 * @brief Prints a warning message with extra info to the console
+	 * 
+	 * @param msg A std::string of the message to print
+	 * @param info A std::string of the extra info to print
+	 */
+	void lWarn(std::string msg, std::string info);
+
+	/**
 	 * @brief Prints an error message to the console
 	 * 
 	 * @param msg A C-style string of the message to print
 	 */
 	void err(char *msg);
+
+	/**
+	 * @brief Prints an error message to the console
+	 * 
+	 * @param msg A std::string of the message to print
+	 */
+	void err(std::string msg);
 
 	/**
 	 * @brief Prints an error message with extra info to the console
@@ -80,4 +109,12 @@ namespace Console {
 	 * @param info A C-style string of the extra info to print
 	 */
 	void lErr(char *msg, char *info);
+
+	/**
+	 * @brief Prints an error message with extra info to the console
+	 * 
+	 * @param msg An std::string of the message to print
+	 * @param info An std::tring of the extra info to print
+	 */
+	void lErr(std::string msg, std::string info);
 }
