@@ -1,5 +1,5 @@
 ## Process this file with automake to generate Makefile.in
-AM_CXXFLAGS = $(WeeChat_CFLAGS) $(BOOST_CPPFLAGS)
+AM_CXXFLAGS = $(WeeChat_CFLAGS) $(BOOST_CPPFLAGS) -DDATADIR=\"$(pkgdatadir)\"
 AM_LDFLAGS = $(BOOST_LDFLAGS)
 
 bin_PROGRAMS = WeeChat

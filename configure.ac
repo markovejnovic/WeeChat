@@ -21,6 +21,7 @@ PKG_CHECK_MODULES([WeeChat], [
 
 AC_CONFIG_FILES([
 	Makefile
+	data/Makefile
 	src/Makefile
 ])
 
