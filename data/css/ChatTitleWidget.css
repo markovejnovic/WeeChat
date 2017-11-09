@@ -1,0 +1,23 @@
+#text-container {
+	padding-top: 4px;
+}
+
+#chat-title-text, #chat-description-text {
+	font-family: Helvetica Neue,Helvetica,Hiragino Sans GB,Microsoft YaHei,\\5FAE\8F6F\96C5\9ED1,Arial,sans-serif
+}
+
+#chat-title-text {
+	padding-top: 4px;
+}
+
+#chat-description-text {
+	padding-top: 4px;
+}
+
+#chat-title-widget > #text-container > #chat-description-text {
+	color: #989898;
+}
+
+#chat-title-widget > #text-container > #chat-title-text {
+	color: #FFFFFF;
+}
