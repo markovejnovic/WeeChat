@@ -53,7 +53,7 @@
 #endif
 
 #ifndef MINIMUM_WIDTH
-#define MINIMUM_WIDTH 200
+#define MINIMUM_WIDTH 250
 #endif
 
 #ifndef DEFAULT_HEIGHT

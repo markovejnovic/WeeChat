@@ -107,7 +107,7 @@
  * The default resolution to write to the config file
  */
 #ifndef RESOLUTION_DEFAULT
-#define RESOLUTION_DEFAULT "400" RESOLUTION_DELIMITER "300"
+#define RESOLUTION_DEFAULT "700" RESOLUTION_DELIMITER "500"
 #endif
 
 /**
