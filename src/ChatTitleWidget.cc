@@ -85,12 +85,15 @@ namespace WeeChat {
 		Gtk::Image *profileImage = Gtk::manage(new Gtk::Image(
 			Gdk::Pixbuf::create_from_file(DATADIR "/res/img/profilePicture.png")->
 				scale_simple(DEFAULT_HEIGHT - PROFILE_PICTURE_PADDING, 
-					DEFAULT_HEIGHT - PROFILE_PICTURE_PADDING, Gdk::InterpType::INTERP_BILINEAR)));
+					DEFAULT_HEIGHT - PROFILE_PICTURE_PADDING,
+					Gdk::InterpType::INTERP_BILINEAR)));
 
 		Gtk::VBox *textContainer = Gtk::manage(new Gtk::VBox());
 		textContainer->set_name("text-container");
 
-		pack_start(*profileImage, false, false, PROFILE_PICTURE_PADDING + PROFILE_PICTURE_PADDING_HORIZONTAL);		
+		pack_start(*profileImage, false, false,
+			PROFILE_PICTURE_PADDING + PROFILE_PICTURE_PADDING_HORIZONTAL);
+
 		pack_start(*textContainer, false, true, TEXT_PADDING);
 
 		Gtk::Label *chatTitle = Gtk::manage(new Gtk::Label("Chat Title",
@@ -114,7 +117,8 @@ namespace WeeChat {
 		return Gtk::Widget::get_request_mode_vfunc();
 	}
 
-	void ChatTitleWidget::get_preferred_width_vfunc(int &minimum_width, int &natural_width) const {
+	void ChatTitleWidget::get_preferred_width_vfunc(int &minimum_width, int &natural_width)
+		const {
 		minimum_width = MINIMUM_WIDTH;
 		natural_width = MINIMUM_WIDTH;
 	}
@@ -125,7 +129,8 @@ namespace WeeChat {
 		natural_width = MINIMUM_WIDTH;
 	}
 
-	void ChatTitleWidget::get_preferred_height_vfunc(int &minimum_height, int &natural_height) const {
+	void ChatTitleWidget::get_preferred_height_vfunc(int &minimum_height, int &natural_height)
+		const {
 		minimum_height = DEFAULT_HEIGHT;
 		natural_height = DEFAULT_HEIGHT;
 	}
@@ -138,7 +143,8 @@ namespace WeeChat {
 
 	void ChatTitleWidget::get_style() {
 		Glib::RefPtr<Gtk::CssProvider> cssProvider = Gtk::CssProvider::create();
-		cssProvider->signal_parsing_error().connect(sigc::mem_fun(this, &ChatTitleWidget::on_css_parsing_error));
+		cssProvider->signal_parsing_error().connect(sigc::mem_fun(this,
+			&ChatTitleWidget::on_css_parsing_error));
 		try {
 			cssProvider->load_from_path(DATADIR "/css/ChatTitleWidget.css");
 		} catch (const Gtk::CssProviderError &cpe) {
@@ -149,11 +155,13 @@ namespace WeeChat {
 
 		Glib::RefPtr<Gdk::Screen> screen = Gdk::Screen::get_default();
 		if (!screen) {
-			Console::err("There is no available screen. The widget most likely did not construct.");
+			Console::err("There is no available screen."
+				"The widget most likely did not construct.");
 		}
 
 		Glib::RefPtr<Gtk::StyleContext> styleContext = get_style_context();
-		styleContext->add_provider_for_screen(screen, cssProvider, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+		styleContext->add_provider_for_screen(screen, cssProvider,
+			GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 	}
 
 	void ChatTitleWidget::on_css_parsing_error(

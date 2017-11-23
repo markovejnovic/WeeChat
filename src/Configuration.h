@@ -119,8 +119,10 @@
 #endif
 
 /**
- * @brief The Config namespace contains all functions which configure the application
- * @details The Config namespace contains the functions for setting and getting data from the configuration file.
+ * @brief The Config namespace contains all functions which configure the
+ * application.
+ * @details The Config namespace contains the functions for setting and getting
+ * data from the configuration file.
  */
 namespace Config {
 	/**
@@ -132,9 +134,11 @@ namespace Config {
 
 	/**
 	 * @brief Creates a default configuration file
-	 * @details This method creates a default configuration in DEFAULT_CONFIG_FILE_LOCATION with the name
-	 * DEFAULT_CONFIG_FILE_NAME and writes CONFIG_DEFAULT to it. If DEFAULT_CONFIG_FILE_LOCATION is
-	 * !boost::filesystem::is_directory() then a directory is created and the file created in it.
+	 * @details This method creates a default configuration in
+	 * DEFAULT_CONFIG_FILE_LOCATION with the name DEFAULT_CONFIG_FILE_NAME and
+	 * writes CONFIG_DEFAULT to it. If DEFAULT_CONFIG_FILE_LOCATION is
+	 * !boost::filesystem::is_directory() then a directory is created and the file
+	 * created in it.
 	 */
 	void create();
 
@@ -145,12 +149,14 @@ namespace Config {
 
 	/**
 	 * @brief Changes the Configuration File Path
-	 * @details This function allows you to set a non-default configuration file location. Using it is discouraged.
+	 * @details This function allows you to set a non-default configuration file
+	 * location. Using it is discouraged.
 	 */
 	void setConfigurationFile(std::string fileLocation);
 
 	/**
-	 * @brief Reads the configuration file line by line, returniing all the configuration values
+	 * @brief Reads the configuration file line by line, returniing all the
+	 * configuration values.
 	 * @return ConfigurationValues All ConfigurationValues read
 	 */
 	ConfigurationValues read();
@@ -169,7 +175,8 @@ namespace Config {
 	 * @param keyValuePair The pair of a key and value in the config file
 	 * @return A pair of resolutions (width and height)
 	 */
-	std::pair<short, short> parseResolution(std::pair<std::string, std::string> keyValuePair);
+	std::pair<short, short> parseResolution(
+		std::pair<std::string, std::string> keyValuePair);
 
 	/**
 	 * @brief Returns the resolution of the app on startup
@@ -187,13 +194,15 @@ namespace Config {
 	void setResolution(std::pair<int, int> resolution);
 
 	/**
-	 * @brief Writes a default resolution denominated by RESOLUTION_TEXT CONFIG DELIMITER RESOLUTION_DEFAULT to the
-	 * configuration file
+	 * @brief Writes a default resolution denominated by
+	 * RESOLUTION_TEXT CONFIG DELIMITER RESOLUTION_DEFAULT to the configuration
+	 * file.
 	 */
 	void setDefaultResolution();
 
 	/**
-	 * @brief An exception for when a file (usually accessed via ifstream) is not found
+	 * @brief An exception for when a file (usually accessed via ifstream) is not
+	 * found.
 	 */
 	class FileNotFoundException : public std::runtime_error {
 	public:
@@ -220,7 +229,8 @@ namespace Config {
 	};
 
 	/**
-	 * @brief An exception for when a configuration key is not found in the configuration file
+	 * @brief An exception for when a configuration key is not found in the
+	 * configuration file.
 	 */
 	class ConfigurationKeyNotFoundException : public std::runtime_error {
 	public:

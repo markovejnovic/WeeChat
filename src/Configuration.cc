@@ -25,7 +25,8 @@ namespace Config {
 	ConfigurationValues configurationValues;
 
 	static boost::filesystem::path configFileLocation(DEFAULT_CONFIG_FILE_LOCATION);
-	static boost::filesystem::path configFile(configFileLocation / boost::filesystem::path(DEFAULT_CONFIG_FILE_NAME));
+	static boost::filesystem::path configFile(
+		configFileLocation / boost::filesystem::path(DEFAULT_CONFIG_FILE_NAME));
 
 	std::pair<std::string, std::string> getKeyValuePair(std::string key);
 
@@ -68,7 +69,8 @@ namespace Config {
 			} else if (boost::starts_with(line, RESOLUTION_TEXT)) {
 				configurationValues.resolution = parseResolution(parseKeyValue(line));
 			} else {
-				Console::warn("Unknown line while reading configuration file: \"" + line + "\". Skipping it.");
+				Console::warn("Unknown line while reading configuration file: \""
+					+ line + "\". Skipping it.");
 			}
 		}
 
@@ -125,8 +127,7 @@ namespace Config {
 
 						keyValuePair = std::make_pair(
 							value.substr(0, delimiterPosition),
-							value.substr(delimiterPosition + sizeof(RESOLUTION_DELIMITER) - 1)
-						);
+							value.substr(delimiterPosition + sizeof(RESOLUTION_DELIMITER) - 1));
 					}
 				}
 			}
