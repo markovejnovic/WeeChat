@@ -12,6 +12,7 @@ aux-dist
 *.glade~
 src/WeeChat
 compile_commands.json
+*.swp
 
 ## Automake
 
