@@ -15,14 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-list {
-	background-color: #33333B;
-}
-
-list > row:active, list > row:selected {
-	background-color: #3E4048;
-}
-
-list > row {
-	border-bottom: 1px solid #292c33;
+#chat-widget {
+	background-color: #EEEEEE;
 }

@@ -18,6 +18,7 @@
 #include <gtkmm.h>
 #include "Configuration.h"
 #include "ConsolePrinter.h"
+#include "ChatWidget.h"
 #include "ChatTitleWidget.h"
 
 Gtk::ApplicationWindow *appWindow = nullptr;
@@ -45,6 +46,9 @@ int createApp(int argc, char **argv, Config::ConfigurationValues vals) {
 		Gtk::ListBox* chatTitleContainer = nullptr;
 		uiBuilder->get_widget("ChatTitleContainer", chatTitleContainer);
 
+		Gtk::Box *chatContainer = nullptr;
+		uiBuilder->get_widget("ChatContainer", chatContainer);
+
 		auto mRefCssProvider = Gtk::CssProvider::create();
 		try {
 			mRefCssProvider->load_from_path(DATADIR "/css/WeeChat.css");
@@ -65,7 +69,11 @@ int createApp(int argc, char **argv, Config::ConfigurationValues vals) {
 		chatTitleContainer->append(*ctw5);
 		chatTitleContainer->append(*ctw6);
 		chatTitleContainer->append(*ctw7);
-		chatTitleContainer->append(*ctw8);
+
+		WeeChat::ChatWidget cw;
+		Gtk::Label lbl;
+		chatContainer->pack_start(cw);
+		chatContainer->pack_start(lbl);
 
 		appWindow->show_all_children();
 
