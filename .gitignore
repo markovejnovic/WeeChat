@@ -11,7 +11,7 @@ aux-dist
 *.status
 *.glade~
 src/WeeChat
-compile_commmands.json
+compile_commands.json
 
 ## Automake
 
